@@ -23,27 +23,48 @@ public class MyTeleOp extends OpMode {
 
     @Override
     public void loop() {
+
         double leftStickY = gamepad1.left_stick_y;
         double rightStickY = gamepad1.right_stick_y;
 
-        double leftPower = leftStickY + rightStickY;
-        double rightPower = leftStickY - rightStickY;
+        double leftPowerRotate = leftStickY + rightStickY;
+        double rightPowerRotate = leftStickY - rightStickY;
 
-        frontLeftMotor.setPower(leftPower);
-        frontRightMotor.setPower(rightPower);
-        backLeftMotor.setPower(leftPower);
-        backRightMotor.setPower(rightPower);
+        if (leftStickY > 0 || rightStickY > 0) {
+            frontLeftMotor.setPower(leftPowerRotate);
+            frontRightMotor.setPower(rightPowerRotate);
+            backLeftMotor.setPower(leftPowerRotate);
+            backRightMotor.setPower(rightPowerRotate);
+        }
 
-        // Control arm
-        double armPower = gamepad1.right_stick_x * 0.5; // Limit arm power to 0.5
+        double leftTrigger = gamepad1.left_trigger*-1;
+        double rightTrigger = gamepad1.right_trigger;
+
+        double forwardsPower = rightTrigger;
+        double backwardsPower = leftTrigger;
+
+        if (leftTrigger < 0 && rightTrigger == 0 && leftStickY == 0 && rightStickY == 0) {
+            frontLeftMotor.setPower(backwardsPower);
+            frontRightMotor.setPower(backwardsPower);
+            backLeftMotor.setPower(backwardsPower);
+            backRightMotor.setPower(backwardsPower);
+        }
+
+        if (rightTrigger > 0 && leftTrigger == 0 && leftStickY == 0 && rightStickY == 0) {
+            frontLeftMotor.setPower(forwardsPower);
+            frontRightMotor.setPower(forwardsPower);
+            backLeftMotor.setPower(forwardsPower);
+            backRightMotor.setPower(forwardsPower);
+        }
+
+        double armPower = gamepad1.right_stick_x * 0.5;
 
         armMotor.setPower(armPower);
 
-        // Control claw
         if (gamepad1.x) {
-            clawServo.setPosition(1.0); // Open claw
+            clawServo.setPosition(1.0);
         } else if (gamepad1.y) {
-            clawServo.setPosition(0.0); // Close claw
+            clawServo.setPosition(0.0);
         }
     }
 
