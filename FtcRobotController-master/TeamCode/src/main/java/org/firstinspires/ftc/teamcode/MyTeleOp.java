@@ -23,7 +23,6 @@ public class MyTeleOp extends OpMode {
 
     @Override
     public void loop() {
-
         double leftStickY = gamepad1.left_stick_y;
         double rightStickY = gamepad1.right_stick_y;
 
