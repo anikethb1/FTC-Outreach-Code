@@ -4,10 +4,13 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "MyTeleOp", group = "FTC")
+@TeleOp(name = "MyTeleOp")
 public class MyTeleOp extends OpMode {
 
-    DcMotor frontLeftMotor, frontRightMotor, backLeftMotor, backRightMotor;
+    DcMotor frontLeftMotor;
+    DcMotor frontRightMotor;
+    DcMotor backLeftMotor;
+    DcMotor backRightMotor;
     DcMotor armMotor;
     Servo clawServo;
 
@@ -19,21 +22,60 @@ public class MyTeleOp extends OpMode {
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
         armMotor = hardwareMap.dcMotor.get("armMotor");
         clawServo = hardwareMap.servo.get("clawServo");
+
+        frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+        backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+
     }
 
     @Override
     public void loop() {
+
+        if (gamepad1.left_stick_y > 0.3 || gamepad1.left_stick_y < -0.3) {
+            frontLeftMotor.setPower(0.6);
+            frontRightMotor.setPower(0.6);
+            backLeftMotor.setPower(0.6);
+            backRightMotor.setPower(0.6);
+        }
+
+        if (0.3 > gamepad1.left_stick_y && gamepad1.left_stick_y > -0.3) {
+            frontLeftMotor.setPower(0);
+            frontRightMotor.setPower(0);
+            backLeftMotor.setPower(0);
+            backRightMotor.setPower(0);
+        }
+
+        if (gamepad1.left_stick_x >= 0.3) {
+            strafeLeft();
+        } else if (gamepad1.left_stick_x <= 0.3) {
+            strafeRight();
+        }
+
+        if (gamepad1.left_stick_x < 0.3 && gamepad1.left_stick_y > 0.3) {
+            moveFrontLeft();
+        } else if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y > 0.3) {
+            moveFrontRight();
+        } else if (gamepad1.left_stick_x < 0.3 && gamepad1.left_stick_y < 0.3) {
+            moveBackLeft();
+        } else if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y < 0.3) {
+           moveBackRight();
+        }
+
+        /*
+
         double leftStickY = gamepad1.left_stick_y;
         double rightStickY = gamepad1.right_stick_y;
 
-        double leftPowerRotate = leftStickY + rightStickY;
-        double rightPowerRotate = leftStickY - rightStickY;
+        double leftPower = leftStickY + rightStickY;
+        double rightPower = leftStickY - rightStickY;
 
         if (leftStickY > 0 || rightStickY > 0) {
-            frontLeftMotor.setPower(leftPowerRotate);
-            frontRightMotor.setPower(rightPowerRotate);
-            backLeftMotor.setPower(leftPowerRotate);
-            backRightMotor.setPower(rightPowerRotate);
+            frontLeftMotor.setPower(leftPower);
+            frontRightMotor.setPower(rightPower);
+            backLeftMotor.setPower(leftPower);
+            backRightMotor.setPower(rightPower);
         }
 
         double leftTrigger = gamepad1.left_trigger*-1;
@@ -56,6 +98,8 @@ public class MyTeleOp extends OpMode {
             backRightMotor.setPower(forwardsPower);
         }
 
+         */
+
         double armPower = gamepad1.right_stick_x * 0.5;
 
         armMotor.setPower(armPower);
@@ -66,5 +110,62 @@ public class MyTeleOp extends OpMode {
             clawServo.setPosition(0.0);
         }
     }
+
+    public void strafeLeft() {
+        frontLeftMotor.setPower(-0.6);
+        backLeftMotor.setPower(0.6);
+        frontRightMotor.setPower(0.6);
+        backRightMotor.setPower(-0.6);
+    }
+
+    public void strafeRight() {
+        frontLeftMotor.setPower(0.6);
+        backLeftMotor.setPower(-0.6);
+        frontRightMotor.setPower(-0.6);
+        backRightMotor.setPower(0.6);
+    }
+
+    public void turnLeft() {
+        frontLeftMotor.setPower(-0.6);
+        backLeftMotor.setPower(-0.6);
+        frontRightMotor.setPower(-0.6);
+        backRightMotor.setPower(-0.6);
+    }
+
+    public void turnRight() {
+        frontLeftMotor.setPower(0.6);
+        backLeftMotor.setPower(0.6);
+        frontRightMotor.setPower(0.6);
+        backRightMotor.setPower(0.6);
+    }
+
+    public void moveFrontRight() {
+        frontLeftMotor.setPower(0);
+        backLeftMotor.setPower(0.6);
+        frontRightMotor.setPower(0.6);
+        backRightMotor.setPower(0);
+    }
+
+    public void moveBackRight() {
+        frontLeftMotor.setPower(0);
+        backLeftMotor.setPower(-0.6);
+        frontRightMotor.setPower(-0.6);
+        backRightMotor.setPower(0);
+    }
+
+    public void moveFrontLeft() {
+        frontLeftMotor.setPower(0.6);
+        backLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backRightMotor.setPower(0.6);
+    }
+
+    public void moveBackLeft() {
+        frontLeftMotor.setPower(-0.6);
+        backLeftMotor.setPower(0);
+        frontRightMotor.setPower(0);
+        backRightMotor.setPower(-0.6);
+    }
+
 
 }
