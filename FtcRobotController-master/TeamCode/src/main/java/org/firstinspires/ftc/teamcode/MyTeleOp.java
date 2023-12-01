@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp(name = "MyTeleOp")
@@ -33,7 +34,24 @@ public class MyTeleOp extends OpMode {
     @Override
     public void loop() {
 
-        if (gamepad1.left_stick_y > 0.3 || gamepad1.left_stick_y < -0.3) {
+        if (gamepad1.left_stick_y > 0.3) {
+            frontLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+            frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
+            backLeftMotor.setDirection(DcMotor.Direction.FORWARD);
+            backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+
+            frontLeftMotor.setPower(0.6);
+            frontRightMotor.setPower(0.6);
+            backLeftMotor.setPower(0.6);
+            backRightMotor.setPower(0.6);
+        }
+
+        if (gamepad1.left_stick_y < -0.3) {
+            frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+            frontRightMotor.setDirection(DcMotor.Direction.REVERSE);
+            backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
+            backRightMotor.setDirection(DcMotor.Direction.REVERSE);
+
             frontLeftMotor.setPower(0.6);
             frontRightMotor.setPower(0.6);
             backLeftMotor.setPower(0.6);
@@ -100,9 +118,18 @@ public class MyTeleOp extends OpMode {
 
          */
 
-        double armPower = gamepad1.right_stick_x * 0.5;
+        else if (gamepad1.right_stick_y > 0.3 ) {
+            armMotor.setPower(gamepad1.right_stick_y / 2);
+        }
+
+        /*
+
+        double armPower = gamepad1.right_stick_x / 2;
 
         armMotor.setPower(armPower);
+
+
+         */
 
         if (gamepad1.x) {
             clawServo.setPosition(1.0);
