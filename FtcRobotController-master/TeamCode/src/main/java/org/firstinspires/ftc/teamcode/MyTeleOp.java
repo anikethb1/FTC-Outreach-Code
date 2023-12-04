@@ -136,7 +136,6 @@ public class MyTeleOp extends OpMode {
 
 
 
-
         if (gamepad1.x) {
             clawServo.setPosition(1.0);
         } else if (gamepad1.y) {
