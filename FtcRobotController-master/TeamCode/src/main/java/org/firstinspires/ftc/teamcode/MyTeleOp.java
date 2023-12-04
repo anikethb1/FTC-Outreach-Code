@@ -12,8 +12,11 @@ public class MyTeleOp extends OpMode {
     DcMotor frontRightMotor;
     DcMotor backLeftMotor;
     DcMotor backRightMotor;
+
+    /*
     DcMotor armMotor;
     Servo clawServo;
+     */
 
     @Override
     public void init() {
@@ -21,8 +24,11 @@ public class MyTeleOp extends OpMode {
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
+
+        /*
         armMotor = hardwareMap.dcMotor.get("armMotor");
-        clawServo = hardwareMap.servo.get("clawServo");
+        clawServo = hardwareMap.servo.get("clawServo");'
+            */
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
@@ -118,24 +124,25 @@ public class MyTeleOp extends OpMode {
 
          */
 
+        /*
         else if (gamepad1.right_stick_y > 0.3 ) {
             armMotor.setPower(gamepad1.right_stick_y / 2);
         }
 
-        /*
-
-        double armPower = gamepad1.right_stick_x / 2;
-
-        armMotor.setPower(armPower);
 
 
-         */
+        // double armPower = gamepad1.right_stick_x / 2;
+        // armMotor.setPower(armPower);
+
+
+
 
         if (gamepad1.x) {
             clawServo.setPosition(1.0);
         } else if (gamepad1.y) {
             clawServo.setPosition(0.0);
         }
+         */
     }
 
     public void strafeLeft() {
