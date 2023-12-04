@@ -87,7 +87,7 @@ public class MyTeleOp extends OpMode {
            moveBackRight();
         }
 
-        /*
+
 
         double leftStickY = gamepad1.left_stick_y;
         double rightStickY = gamepad1.right_stick_y;
@@ -122,7 +122,7 @@ public class MyTeleOp extends OpMode {
             backRightMotor.setPower(forwardsPower);
         }
 
-         */
+
 
         /*
         else if (gamepad1.right_stick_y > 0.3 ) {
