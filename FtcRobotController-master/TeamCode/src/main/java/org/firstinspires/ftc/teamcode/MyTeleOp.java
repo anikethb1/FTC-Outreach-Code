@@ -11,25 +11,27 @@ public class MyTeleOp extends OpMode {
     DcMotor frontRightMotor;
     DcMotor backLeftMotor;
     DcMotor backRightMotor;
-
-
-
-
+    DcMotor armMotor;
+    Servo clawRotateServo;
+    Servo clawGrabServo;
+    
     @Override
     public void init() {
         frontLeftMotor = hardwareMap.dcMotor.get("frontLeftMotor");
         frontRightMotor = hardwareMap.dcMotor.get("frontRightMotor");
         backLeftMotor = hardwareMap.dcMotor.get("backLeftMotor");
         backRightMotor = hardwareMap.dcMotor.get("backRightMotor");
-
-
-
-
+        armMotor = hardwareMap.dcMotor.get("armMotor");
+        clawRotateServo = hardwareMap.servo.get("clawRotateServo");
+        clawGrabServo = hardwareMap.servo.get("clawGrabServo");
 
         frontLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         frontRightMotor.setDirection(DcMotor.Direction.FORWARD);
         backLeftMotor.setDirection(DcMotor.Direction.REVERSE);
         backRightMotor.setDirection(DcMotor.Direction.FORWARD);
+        armMotor.setDirection(DcMotor.Direction.REVERSE);
+        clawRotateServo.setDirection(Servo.Direction.FORWARD);
+        clawGrabServo.setDirection(Servo.Direction.FORWARD);
 
     }
 
@@ -75,16 +77,37 @@ public class MyTeleOp extends OpMode {
 
         if (gamepad1.left_stick_x < 0.3 && gamepad1.left_stick_y > 0.3) {
             moveFrontLeft();
-        } else if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y > 0.3) {
+        }
+
+        if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y > 0.3) {
             moveFrontRight();
-        } else if (gamepad1.left_stick_x < 0.3 && gamepad1.left_stick_y < 0.3) {
+        }
+
+        if (gamepad1.left_stick_x < 0.3 && gamepad1.left_stick_y < 0.3) {
             moveBackLeft();
-        } else if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y < 0.3) {
+        }
+
+        if (gamepad1.left_stick_x > 0.3 && gamepad1.left_stick_y < 0.3) {
            moveBackRight();
         }
 
+        if (gamepad1.x) {
+            clawRotateServo.setPosition(0.5);
+        }
 
+        if (gamepad1.y) {
+            clawRotateServo.setPosition(0);
+        }
 
+        if (gamepad1.a) {
+            clawGrabServo.setPosition(0.5);
+        }
+
+        if (gamepad1.b) {
+            clawGrabServo.setPosition(0);
+        }
+
+        /*
         double leftStickY = gamepad1.left_stick_y;
         double rightStickY = gamepad1.right_stick_y;
 
@@ -118,9 +141,7 @@ public class MyTeleOp extends OpMode {
             backRightMotor.setPower(forwardsPower);
         }
 
-
-
-
+         */
     }
 
     public void strafeLeft() {
